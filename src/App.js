@@ -1,24 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import Home from './Components/Home';
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import ForgotPassword from "./Components/ForgotPassword";
+import OtpVerify from "./Components/OtpVerify";
+import {useEffect} from "react";
+import {showAlert, setAlertMessage} from "./Redux/alertSlice";
+import {useDispatch, useSelector} from "react-redux";
+import NewPassword from "./Components/NewPassword";
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Home />,
+  },
+  {
+    path:'/forgot-password',
+    element: <ForgotPassword />
+  },
+  {
+    path:'/forgot-password/verify-user/:token',
+    element: <OtpVerify />
+  },
+  {
+    path:'/forgot-password/verify-user/:token/new-password',
+    element: <NewPassword />
+  }
+]);
 
 function App() {
+  const dispatch = useDispatch();
+  const { isVisible } = useSelector(state => state.alert);
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      dispatch(showAlert(false));
+      dispatch(setAlertMessage(null));
+    }, 5000);
+
+    return () => clearTimeout(timeOut);
+  }, [isVisible]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <RouterProvider router={router} />
+    </>
   );
 }
 

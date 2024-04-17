@@ -1,9 +1,9 @@
-export default function Arrow({direction, classProp}) {
+export default function Arrow(props) {
     return (
-        <div className={classProp}>
-            <button className="py-4 px-5 border-2 border-gray-700 rounded-full bg-white opacity-40 hover:opacity-100 hover:border-cyan-600 hover:text-cyan-700">
-                {direction === 'right' && <i className='bx bx-chevron-right text-2xl'></i>}
-                {direction === 'left' && <i className='bx bx-chevron-left text-2xl'></i>}
+        <div {...props}>
+            <button className="py-40 text-white">
+                {props.direction === 'right' && <i className='bx bx-chevron-right text-5xl'></i>}
+                {props.direction === 'left' && <i className='bx bx-chevron-left text-5xl'></i>}
             </button>
         </div>
     );

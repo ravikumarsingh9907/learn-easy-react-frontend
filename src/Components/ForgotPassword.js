@@ -19,6 +19,7 @@ export default  function ForgotPassword() {
         setLoader(true);
         const result = await postData('/forgot-password',{email: email.current.value});
         setLoader(false);
+
         if(result.error) {
             dispatch(setAlertMessage(result));
             dispatch(showAlert(true));

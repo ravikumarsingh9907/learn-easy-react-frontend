@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from "react-redux";
 import { toggleForm, toggleSignInSignOut } from "../Redux/formSlice";
 import { useRef, useState } from "react";
@@ -10,7 +11,7 @@ import Alert from "./Layouts/Alert";
 export default function Authenticate() {
     const dispatch = useDispatch();
     const [loader, setLoader] = useState(false);
-    const { isSignup } = useSelector(state => state.form);
+    const { isSignup, toggle } = useSelector(state => state.form);
     const { isVisible, message } = useSelector(state => state.alert);
     const name = useRef(null);
     const email = useRef(null);
@@ -40,15 +41,18 @@ export default function Authenticate() {
                 email: email.current.value,
                 password: password.current.value,
             });
+            result.token && Cookies.set('token', result.token, {expires: 7});
             dispatch(setAlertMessage(result));
             dispatch(showAlert(true));
             setLoader(false);
+            dispatch(toggleForm(false));
         }
     }
 
     return (
         <>
             {isVisible && <Alert message={message}/>}
+            {toggle && <div className='absolute top-0 bottom-0 right-0 left-0 bg-black z-10 opacity-70'></div>}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-cyan-700 p-8 rounded-md z-50">
                 <div className="absolute right-0 top-0 p-2">
                     <i className='bx bx-x text-3xl text-white' onClick={handleCloseForm}></i>

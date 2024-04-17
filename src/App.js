@@ -6,6 +6,9 @@ import {useEffect} from "react";
 import {showAlert, setAlertMessage} from "./Redux/alertSlice";
 import {useDispatch, useSelector} from "react-redux";
 import NewPassword from "./Components/NewPassword";
+import Admin from "./Components/Admin/AdminHome";
+import AdminCategories from "./Components/Admin/Categories";
+import AddCategory from "./Components/Admin/AddCategory";
 
 const router = createBrowserRouter([
   {
@@ -14,7 +17,7 @@ const router = createBrowserRouter([
   },
   {
     path:'/forgot-password',
-    element: <ForgotPassword />
+    element: <ForgotPassword />,
   },
   {
     path:'/forgot-password/verify-user/:token',
@@ -23,7 +26,19 @@ const router = createBrowserRouter([
   {
     path:'/forgot-password/verify-user/:token/new-password',
     element: <NewPassword />
-  }
+  },
+  {
+    path:'/admin',
+    element: <Admin />
+  },
+  {
+    path:'/admin/categories',
+    element: <AdminCategories />
+  },
+  {
+    path:'/admin/categories/add',
+    element: <AddCategory action='Add Category' />
+  },
 ]);
 
 function App() {

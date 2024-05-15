@@ -28,19 +28,19 @@ export default function Authenticate() {
     const handleOnSubmit = async () => {
         setLoader(true);
         if (isSignup) {
-            const result = await postData('/signup', {
+            const result = await postData('/signup', JSON.stringify({
                 name: name.current.value,
                 email: email.current.value,
                 password: password.current.value,
-            });
+            }));
             dispatch(setAlertMessage(result));
             dispatch(showAlert(true));
             setLoader(false);
         } else {
-            const result = await postData('/login', {
+            const result = await postData('/login', JSON.stringify({
                 email: email.current.value,
                 password: password.current.value,
-            });
+            }));
             result.token && Cookies.set('token', result.token, {expires: 7});
             dispatch(setAlertMessage(result));
             dispatch(showAlert(true));

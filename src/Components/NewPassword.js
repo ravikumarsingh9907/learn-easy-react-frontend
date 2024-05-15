@@ -20,7 +20,7 @@ export default  function NewPassword() {
     const handleForgotPassword = async () => {
         setLoader(true);
         const result = await postData(`/forgot-password/verify-user/${token}/new-password`,
-            {password: password.current.value, confirmPassword: confirmPassword.current.value});
+            JSON.stringify({password: password.current.value, confirmPassword: confirmPassword.current.value}));
         setLoader(false);
         dispatch(setAlertMessage(result));
         dispatch(showAlert(true));

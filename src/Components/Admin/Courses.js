@@ -1,42 +1,37 @@
-import SearchBar from "../Layouts/SearchBar";
-import {Link} from "react-router-dom";
-import Button from "../Layouts/Button";
-import {useEffect, useState} from "react";
-import {deleteData, getData} from "../../ApiCalls/apis";
-import {useDispatch, useSelector} from "react-redux";
-import {setAlertMessage, showAlert} from "../../Redux/alertSlice";
-import CategoryCard from '../Layouts/Card';
 import Alert from "../Layouts/Alert";
 import Logo from "../Layouts/Logo";
-export default function Categories() {
-    const [categories, setCategories] = useState(null);
+import SearchBar from "../Layouts/SearchBar";
+import Button from "../Layouts/Button";
+import {Link} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect, useState} from "react";
+import {deleteData, getData} from "../../ApiCalls/apis";
+import {setAlertMessage, showAlert} from "../../Redux/alertSlice";
+import CourseCard from "../Layouts/CourseCard";
+
+export default function Courses() {
+    const{ message, isVisible} = useSelector(state => state.alert);
+    const [courses, setCourses] = useState(null);
     const dispatch = useDispatch();
-    const {message, isVisible} = useSelector(state => state.alert);
 
     useEffect(() => {
         (async () => {
-            const result = await getData('/categories');
+            const result = await getData('/courses');
             if(result.error) {
                 dispatch(showAlert(true));
                 dispatch(setAlertMessage(result));
             } else {
-                setCategories(result);
+                setCourses(result);
             }
         })();
-    }, []);
+    }, [courses]);
 
-    const deleteCategory = async (e) => {
-        dispatch(showAlert(true));
-        dispatch(setAlertMessage({error: 'Category deleting...'}));
-        const result = await deleteData('/categories/'+e.target.value);
-        dispatch(showAlert(true));
-        dispatch(setAlertMessage(result));
-
-        const filterCategory = categories.filter((category) => {
-            return category._id !== result.id;
-        });
-
-        setCategories(filterCategory);
+    const handleDeleteCourse = async (e) => {
+        showAlert(true);
+        setAlertMessage({error: 'Deleting course...'});
+        const course = await deleteData('/courses/'+ e.target.value);
+        showAlert(true);
+        setAlertMessage(course);
     }
 
     return(
@@ -51,7 +46,7 @@ export default function Categories() {
                 </div>
                 <div className='w-11/12 m-auto mt-4 flex gap-4'>
                     <Button className='px-4 py-2 rounded-md bg-cyan-700 text-white'>
-                        <Link to='/admin/categories/add' className='text-lg'>Add Category</Link>
+                        <Link to='/admin/courses/add' className='text-lg'>Add Course</Link>
                     </Button>
                     <Button className='px-4 py-2 rounded-md border-2'>
                         <Link to='/admin' className='text-lg'>Back</Link>
@@ -62,14 +57,14 @@ export default function Categories() {
                         <h2 className=''>Categories</h2>
                     </div>
                     <div className='flex gap-4 flex-wrap mt-2'>
-                        {categories && categories.length && categories.map(category => {
+                        {courses && courses.length && courses.map(course => {
                             return (
-                                <div className='relative border-2 rounded-lg p-2 text-right' key={category._id}>
-                                    <CategoryCard category={category}/>
+                                <div className='relative border-2 rounded-lg p-2 text-right' key={course._id}>
+                                    <CourseCard course={course}/>
                                     <Button className='border-2 py-2 px-4 rounded-md mt-2'>
-                                        <Link to={'/admin/categories/' + category._id}>Update</Link>
+                                        <Link to={'/admin/courses/' + course._id}>Update</Link>
                                     </Button>
-                                    <Button className='py-2 px-4 rounded-md mt-2 ml-2 bg-red-500 text-white' value={category._id} onClick={deleteCategory}>Delete</Button>
+                                    <Button className='py-2 px-4 rounded-md mt-2 ml-2 bg-red-500 text-white' value={course._id} onClick={handleDeleteCourse} >Delete</Button>
                                 </div>
                             );
                         })}

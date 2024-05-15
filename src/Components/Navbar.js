@@ -32,8 +32,8 @@ export default function Navbar() {
     }
 
     return (
-        <div className='bg-gray-100'>
-            <div className="nav-wrapper flex items-center justify-between p-4 w-5/6 m-auto">
+        <div className='bg-gray-100 sticky top-0'>
+            <div className="nav-wrapper flex items-center justify-between p-4 w-4/5 m-auto">
                 <Logo size='w-32'/>
                 <SearchBar className="max-[768px]:hidden search xl:mr-96 flex items-center gap-2" placeholder='Search Courses...'/>
                 <div className="profile relative">

@@ -1,5 +1,7 @@
-export default function Loader() {
+export default function Loader(props) {
     return (
-        <i className='bx bx-loader-alt animate-spin text-lg'></i>
+        <button {...props}>
+            <i className='bx bx-loader-alt animate-spin text-lg'></i>
+        </button>
     );
 }

@@ -1,8 +1,7 @@
-import {Link} from "react-router-dom";
 import Logo from "../Layouts/Logo";
 import AdminCard from "./AdminCard";
 export default function Admin() {
-    const list = ['Categories', 'Courses', 'Platforms', 'Users'];
+    const list = ['categories', 'courses', 'platforms', 'users'];
     return (
         <>
             <div className='bg-gray-100'>
@@ -13,7 +12,7 @@ export default function Admin() {
             <div className='w-4/5 m-auto mt-8'>
                 <div className='flex gap-4'>
                     { list.map((item) => {
-                        return <AdminCard  name={item}/>
+                        return <AdminCard  name={item} />
                     })}
                 </div>
             </div>

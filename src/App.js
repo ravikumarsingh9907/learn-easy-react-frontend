@@ -9,6 +9,11 @@ import NewPassword from "./Components/NewPassword";
 import Admin from "./Components/Admin/AdminHome";
 import AdminCategories from "./Components/Admin/Categories";
 import AddCategory from "./Components/Admin/AddCategory";
+import AdminCourses from "./Components/Admin/Courses";
+import AddCourse from "./Components/Admin/AddCourse";
+import AdminPlatform from './Components/Admin/Platforms';
+import Courses from "./Components/Courses";
+import CourseDetails from "./Components/CourseDetails";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +33,14 @@ const router = createBrowserRouter([
     element: <NewPassword />
   },
   {
+    path: '/categories/:categoryId/courses',
+    element: <Courses />
+  },
+  {
+    path: '/courses/:courseId',
+    element: <CourseDetails />
+  },
+  {
     path:'/admin',
     element: <Admin />
   },
@@ -36,8 +49,24 @@ const router = createBrowserRouter([
     element: <AdminCategories />
   },
   {
+    path:'/admin/categories/:id',
+    element: <AddCategory action='Update Category' />
+  },
+  {
     path:'/admin/categories/add',
     element: <AddCategory action='Add Category' />
+  },
+  {
+    path:'/admin/courses',
+    element: <AdminCourses />
+  },
+  {
+    path:'/admin/courses/add',
+    element: <AddCourse />
+  },
+  {
+    path:'/admin/platforms',
+    element: <AdminPlatform />
   },
 ]);
 

@@ -17,9 +17,8 @@ export default  function OtpVerify() {
     const { token } = useParams();
     const handleOtpVerification = async () => {
         setLoader(true);
-        const result = await postData(`/forgot-password/verify-user/${token}`,{otp: otp.current.value});
+        const result = await postData(`/forgot-password/verify-user/${token}`,JSON.stringify({otp: otp.current.value}));
         setLoader(false);
-        console.log(result);
         if(result.error) {
             dispatch(setAlertMessage(result));
             dispatch(showAlert(true));

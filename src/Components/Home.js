@@ -91,7 +91,11 @@ export default function Home() {
                     <Arrow direction='left' className='absolute top-1/2 -left-0 -translate-y-1/2 bg-gradient-to-r from-gray-500' />
                     <div className="flex gap-4 justify-start overflow-hidden">
                         {courses && courses.length && courses.map(course => {
-                            return <CourseCard course={course} key={course._id}/>
+                            return (
+                                <Link to={'/courses/' + course._id}>
+                                    <CourseCard course={course} key={course._id}/>
+                                </Link>
+                            )
                         })}
                     </div>
                     <Arrow direction='right' className='absolute top-1/2 -right-0 -translate-y-1/2 bg-gradient-to-l from-gray-500' />

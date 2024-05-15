@@ -16,7 +16,6 @@ export default function useFetchAuth({url, body, method}) {
         dispatch(setAlertMessage(data));
         dispatch(showAlert(true));
     }).catch(e => {
-        console.log(e)
         dispatch(setAlertMessage(e));
         dispatch(showAlert(true));
     });

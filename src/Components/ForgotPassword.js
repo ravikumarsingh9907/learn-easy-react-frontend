@@ -17,7 +17,7 @@ export default  function ForgotPassword() {
 
     const handleForgotPassword = async () => {
         setLoader(true);
-        const result = await postData('/forgot-password',{email: email.current.value});
+        const result = await postData('/forgot-password',JSON.stringify({email: email.current.value}));
         setLoader(false);
 
         if(result.error) {

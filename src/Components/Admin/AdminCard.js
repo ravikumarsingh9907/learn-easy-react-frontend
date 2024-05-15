@@ -13,10 +13,10 @@ export default function AdminCard({name}) {
             <button className='absolute top-2 right-2' onClick={handleToggleOptions}><i className='text-xl bx bx-dots-vertical-rounded'></i></button>
             { isToggle && <ul className='text-sm absolute top-3 right-10'>
                 <li className='border-2 border-b-0 py-2 px-4'>
-                    <Link to='/admin/categories/add'>Add</Link>
+                    <Link to={'/admin/' + name + '/add'}>Add</Link>
                 </li>
                 <li className='border-2 py-2 px-4'>
-                    <Link to='/admin/categories'>Edit</Link>
+                    <Link to={'/admin/' + name}>Edit</Link>
                 </li>
             </ul>}
             <Link to='/admin/categories' className='text-2xl'>{name}</Link>

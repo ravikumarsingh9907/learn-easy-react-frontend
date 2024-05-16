@@ -20,7 +20,7 @@ export default function Filters() {
             sort: '',
             rating: [],
             price: [],
-            limit: 5,
+            limit: 20,
             skip: 0
         }
     });

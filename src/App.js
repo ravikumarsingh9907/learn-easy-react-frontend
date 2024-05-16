@@ -14,6 +14,7 @@ import AddCourse from "./Components/Admin/AddCourse";
 import AdminPlatform from './Components/Admin/Platforms';
 import Courses from "./Components/Courses";
 import CourseDetails from "./Components/CourseDetails";
+import AboutCourse from "./Components/Admin/AboutCourse";
 
 const router = createBrowserRouter([
   {
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
   {
     path:'/admin/courses/add',
     element: <AddCourse />
+  },
+  {
+    path:'/admin/courses/:courseId/about-course',
+    element: <AboutCourse />
   },
   {
     path:'/admin/platforms',

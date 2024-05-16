@@ -24,7 +24,7 @@ export default function Courses() {
                 setCourses(result);
             }
         })();
-    }, [courses]);
+    }, []);
 
     const handleDeleteCourse = async (e) => {
         showAlert(true);
@@ -54,10 +54,10 @@ export default function Courses() {
                 </div>
                 <div className='w-11/12 m-auto'>
                     <div className='mt-8 text-2xl font-medium'>
-                        <h2 className=''>Categories</h2>
+                        <h2 className=''>Courses</h2>
                     </div>
                     <div className='flex gap-4 flex-wrap mt-2'>
-                        {courses && courses.length && courses.map(course => {
+                        {courses?.items?.length && courses.items.map(course => {
                             return (
                                 <div className='relative border-2 rounded-lg p-2 text-right' key={course._id}>
                                     <CourseCard course={course}/>

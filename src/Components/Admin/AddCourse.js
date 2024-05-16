@@ -66,7 +66,7 @@ export default function AddCourse() {
             dispatch(setAlertMessage(course));
             dispatch(showAlert(true));
             setLoader(false);
-            !course.error && navigate('/admin/courses');
+            !course.error && navigate('/admin/courses/'+course?.id+'/about-course');
         }
     });
 

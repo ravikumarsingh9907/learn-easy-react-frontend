@@ -3,7 +3,6 @@ import Cookies from "js-cookie";
 const BASE_URL = 'http://localhost:3300';
 
 export const postData = async (endpoint, data) => {
-    console.log(data);
     const response = await fetch(`${BASE_URL}${endpoint}`, {
         method: 'POST',
         headers: {

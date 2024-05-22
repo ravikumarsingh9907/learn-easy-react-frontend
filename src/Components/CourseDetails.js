@@ -7,6 +7,8 @@ import Details from "./Layouts/CourseDetails/Details";
 import Button from "./Layouts/Button";
 import {Link} from "react-router-dom";
 import Review from "./Layouts/Review";
+import NotFound from "./Layouts/NotFound";
+import Footer from "./Footer";
 
 function averageRating(reviews) {
     let total = 0;
@@ -52,14 +54,17 @@ export default function CourseDetails() {
             <div className='w-4/5 m-auto px-8 flex mt-4 justify-between'>
                 <div>
                     <Details />
-                    <div className='mt-8'>
+                    <div className='mt-8 mb-32'>
                         <div className='mb-4'>
                             <h2 className='text-2xl text-bold'>Reviews</h2>
                         </div>
-                        <div className='flex flex-col gap-8'>
+                        <div className='flex flex-col gap-8 p-2 rounded border-2 relative'>
                             {reviews && reviews?.length > 0 && reviews?.map(review => {
                                 return <Review review={review} />
                             })}
+                            {!reviews?.length && <div className='flex justify-center items-center'>
+                                <NotFound message='No Review Found.'/>
+                            </div>}
                         </div>
                     </div>
                 </div>
@@ -74,6 +79,7 @@ export default function CourseDetails() {
                     </Button>
                 </div>
             </div>
+            <Footer />
         </>
     );
 }

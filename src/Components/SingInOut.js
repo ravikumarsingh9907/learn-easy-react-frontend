@@ -36,16 +36,17 @@ export default function Authenticate() {
             dispatch(setAlertMessage(result));
             dispatch(showAlert(true));
             setLoader(false);
+            result?.success && dispatch(toggleForm(false));
         } else {
             const result = await postData('/login', JSON.stringify({
                 email: email.current.value,
                 password: password.current.value,
             }));
-            result.token && Cookies.set('token', result.token, {expires: 7});
+            result?.token && Cookies.set('token', result.token, {expires: 7});
             dispatch(setAlertMessage(result));
             dispatch(showAlert(true));
             setLoader(false);
-            dispatch(toggleForm(false));
+            result?.token && dispatch(toggleForm(false));
         }
     }
 

@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    min-height: 100vh;
+    margin: 0;
+    position: relative;
+}
+
 .backdrop-filter {
     backdrop-filter: blur(0px);
 }

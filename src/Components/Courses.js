@@ -9,6 +9,7 @@ import Pagination from "./Layouts/Pagination";
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 import Loader from "./Layouts/Loader";
+import Footer from "./Footer";
 export default function Courses() {
     const { filters } = useSelector(state => state.filters);
     const {categoryId} = useParams();
@@ -35,6 +36,8 @@ export default function Courses() {
                 setLoader(false);
             }
         })();
+
+        console.log(courses);
     }, [filters]);
 
     return (
@@ -56,13 +59,16 @@ export default function Courses() {
                                 </Link>
                             )
                         })}
-                        {courses && courses.length === 0 && <NotFound message='No Course Found.' redirectUrl='/' />}
+                        {!courses?.items?.length && <div className='absolute top-1/2 left-1/2 -translate-y-1/2'>
+                            <NotFound message='No Course Found.' redirectUrl='/' />
+                        </div>}
                     </div>
                 </div> : <Loader  className='absolute top-1/2 left-[60%] -transform-x-1/2 -transform-y-1/2' /> }
             </div>
             {courses && !loader && <div className='ml-[22%] mt-16 mb-16'>
                 <Pagination count={courses ? courses.count : 0} limit='5' />
             </div>}
+            <Footer />
         </>
     );
 }

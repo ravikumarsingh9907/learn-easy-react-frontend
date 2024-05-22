@@ -11,7 +11,7 @@ import {getData} from "../ApiCalls/apis";
 import { useDispatch} from "react-redux";
 import {setAlertMessage} from "../Redux/alertSlice";
 import {Link} from "react-router-dom";
-
+import Footer from "./Footer";
 export default function Home() {
     const dispatch = useDispatch();
     const { toggle } = useSelector(state => state.form);
@@ -19,6 +19,7 @@ export default function Home() {
     const [categories, setCategories] = useState(null);
     const [courses, setCourses ] = useState(null);
     const scrollElement = useRef(null);
+    const scrollElementCourse = useRef(null);
 
     useEffect(() => {
         (async () => {
@@ -83,14 +84,16 @@ export default function Home() {
                     <Link to='/'><p className='underline text-lg tracking-wide text-cyan-700'>View all.</p></Link>
                 </div>
             </div>
-            <div className="pb-8 pt-8 w-4/5 m-auto">
+            <div className="pb-40 pt-8 w-4/5 m-auto">
                 <div className="text-center p-4 mb-4">
                     <h2 className="text-3xl text-bold">Top <span className="text-cyan-700">Rated</span> Courses</h2>
                 </div>
                 <div className="relative overflow-hidden">
-                    <Arrow direction='left' className='absolute top-1/2 -left-0 -translate-y-1/2 bg-gradient-to-r from-gray-500' />
-                    <div className="flex gap-4 justify-start overflow-hidden">
-                        {courses && courses.length && courses.map(course => {
+                    <Arrow direction='left' className='absolute top-1/2 -left-0 -translate-y-1/2 bg-gradient-to-r from-gray-500' onClick={() => {
+                        handleHorizontalScroll(scrollElementCourse.current, 10, 320, -10);
+                    }}/>
+                    <div className="flex gap-4 justify-start overflow-hidden" ref={scrollElementCourse}>
+                        {courses && courses?.items.length && courses?.items.map(course => {
                             return (
                                 <Link to={'/courses/' + course._id}>
                                     <CourseCard course={course} key={course._id}/>
@@ -98,9 +101,12 @@ export default function Home() {
                             )
                         })}
                     </div>
-                    <Arrow direction='right' className='absolute top-1/2 -right-0 -translate-y-1/2 bg-gradient-to-l from-gray-500' />
+                    <Arrow direction='right' className='absolute top-1/2 -right-0 -translate-y-1/2 bg-gradient-to-l from-gray-500' onClick={() => {
+                        handleHorizontalScroll(scrollElementCourse.current, 10, 320, 10);
+                    }}/>
                 </div>
             </div>
+            <Footer />
         </>
     );
 }

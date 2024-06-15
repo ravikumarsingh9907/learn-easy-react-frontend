@@ -9,7 +9,7 @@ import Alert from "./Layouts/Alert";
 import {useEffect, useRef, useState} from "react";
 import {getData} from "../ApiCalls/apis";
 import { useDispatch} from "react-redux";
-import {setAlertMessage} from "../Redux/alertSlice";
+import {setAlertMessage, showAlert} from "../Redux/alertSlice";
 import {Link} from "react-router-dom";
 import Footer from "./Footer";
 export default function Home() {
@@ -25,7 +25,7 @@ export default function Home() {
         (async () => {
             const getCategories = await getData('/categories');
             if(getCategories.error) {
-                dispatch(isVisible(true));
+                dispatch(showAlert(true));
                 dispatch(setAlertMessage(getCategories));
             } else {
                 setCategories(getCategories);

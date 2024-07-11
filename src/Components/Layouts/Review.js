@@ -20,17 +20,17 @@ function ratingArray(rating) {
     return stars;
 }
 export default function ReviewContainer({review}) {
-    const name = useMemo(() => printName(review.user.name), [review]);
+    const name = useMemo(() => review?.user?.name && printName(review.user.name), [review]);
     const rating = useMemo(() => ratingArray(review.rating), [review]);
 
     return (
         <div className='border-b-2 pb-4'>
             <div className='flex gap-2'>
                 <div className='py-4 px-[18px] bg-gray-700 rounded-full text-center'>
-                    <p className='text-white text-bold'>{name}</p>
+                    <p className='text-white text-bold'>{name ? name : 'DU'}</p>
                 </div>
                 <div className=''>
-                    <h2 className='text-bold'>{review ? review.user.name : 'User'}</h2>
+                    <h2 className='text-bold'>{review && review.user ? review.user.name : 'User'}</h2>
                     <p className='text-sm text-thin'>Software Developer</p>
                 </div>
             </div>

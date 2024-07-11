@@ -12,6 +12,7 @@ import { useDispatch} from "react-redux";
 import {setAlertMessage, showAlert} from "../Redux/alertSlice";
 import {Link} from "react-router-dom";
 import Footer from "./Footer";
+
 export default function Home() {
     const dispatch = useDispatch();
     const { toggle } = useSelector(state => state.form);
@@ -66,7 +67,7 @@ export default function Home() {
                         <h2 className="text-3xl text-bold">Explore <span className="text-cyan-700">Categories</span></h2>
                     </div>
                     <div className="relative overflow-hidden">
-                        <Arrow direction='left' className='absolute top-1/2 -left-0 -translate-y-1/2 bg-gradient-to-r from-gray-500'
+                        <Arrow direction='left' className='absolute top-1/2 -left-0 -translate-y-1/2'
                         onClick={() => {
                             handleHorizontalScroll(scrollElement.current, 10, 320, -10);
                         }}/>
@@ -75,7 +76,7 @@ export default function Home() {
                                 return <CategoryCard  category={category} key={category._id} />
                             })}
                         </div>
-                        <Arrow direction='right' className='absolute top-1/2 -right-0 -translate-y-1/2 bg-gradient-to-l from-gray-500' onClick={() => {
+                        <Arrow direction='right' className='absolute top-1/2 -right-0 -translate-y-1/2' onClick={() => {
                             handleHorizontalScroll(scrollElement.current, 10, 320, 10);
                         }}/>
                     </div>
@@ -89,19 +90,19 @@ export default function Home() {
                     <h2 className="text-3xl text-bold">Top <span className="text-cyan-700">Rated</span> Courses</h2>
                 </div>
                 <div className="relative overflow-hidden">
-                    <Arrow direction='left' className='absolute top-1/2 -left-0 -translate-y-1/2 bg-gradient-to-r from-gray-500' onClick={() => {
+                    <Arrow direction='left' className='absolute top-1/2 -left-0 -translate-y-1/2' onClick={() => {
                         handleHorizontalScroll(scrollElementCourse.current, 10, 320, -10);
                     }}/>
                     <div className="flex gap-4 justify-start overflow-hidden" ref={scrollElementCourse}>
                         {courses && courses?.items.length && courses?.items.map(course => {
                             return (
-                                <Link to={'/courses/' + course._id}>
+                                <Link to={'/courses/' + course._id} key={course._id}>
                                     <CourseCard course={course} key={course._id}/>
                                 </Link>
                             )
                         })}
                     </div>
-                    <Arrow direction='right' className='absolute top-1/2 -right-0 -translate-y-1/2 bg-gradient-to-l from-gray-500' onClick={() => {
+                    <Arrow direction='right' className='absolute top-1/2 -right-0 -translate-y-1/2' onClick={() => {
                         handleHorizontalScroll(scrollElementCourse.current, 10, 320, 10);
                     }}/>
                 </div>

@@ -9,6 +9,7 @@ import {getData, postDataMultiPartData} from "../../ApiCalls/apis";
 import {useEffect, useState} from "react";
 import { showAlert, setAlertMessage} from "../../Redux/alertSlice";
 import {useNavigate} from "react-router";
+import PageNotFound from "../Layouts/PageNotFound";
 
 export default function AddCourse() {
     const dispatch = useDispatch();
@@ -18,6 +19,7 @@ export default function AddCourse() {
     const [categories, setCategories]= useState(null);
     const [image, setImage] = useState(null);
     const [loader, setLoader] = useState(false);
+    const { isAdmin } = useSelector(state => state.user);
 
     useEffect(() => {
         (async () => {
@@ -78,10 +80,11 @@ export default function AddCourse() {
                     <Logo size='w-32'/>
                 </div>
             </div>
-            <div className='relative'>
+            {isAdmin && <div className='relative'>
                 <div className='absolute left-1/2 -translate-x-1/2 grid'>
                     <h2 className='text-center mt-4 text-2xl font-medium'>Add Course</h2>
-                    <form className='flex flex-col gap-4 grid grid-rows-6 grid-flow-col gap-4' onSubmit={form.handleSubmit}>
+                    <form className='flex flex-col gap-4 grid grid-rows-6 grid-flow-col gap-4'
+                          onSubmit={form.handleSubmit}>
                         <div className='flex flex-col w-72 gap-1'>
                             <label htmlFor='title'>Name</label>
                             <input id='title'
@@ -98,7 +101,7 @@ export default function AddCourse() {
                                     name='category'
                                     className='text-lg p-2 border-2 rounded-md outline-none'
                                     onChange={form.handleChange}
-                                    >
+                            >
                                 {categories && categories.map(category => {
                                     return <option
                                         className='bg-white'
@@ -214,12 +217,15 @@ export default function AddCourse() {
                             />
                         </div>
                         <div className='flex gap-4 items-center mt-4'>
-                            <Button className='text-lg py-2 px-4 rounded-md bg-cyan-700 text-white' type='submit'>{loader && <Loader />} Submit</Button>
-                            <Button className='text-lg py-2 px-4 rounded-md border-2'><Link to='/admin/categories'>Cancel</Link></Button>
+                            <Button className='text-lg py-2 px-4 rounded-md bg-cyan-700 text-white'
+                                    type='submit'>{loader && <Loader/>} Submit</Button>
+                            <Button className='text-lg py-2 px-4 rounded-md border-2'><Link
+                                to='/admin/categories'>Cancel</Link></Button>
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>}
+            {!isAdmin && <PageNotFound />}
         </>
     );
 }

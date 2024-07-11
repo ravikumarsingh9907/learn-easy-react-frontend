@@ -60,7 +60,7 @@ export default function CourseDetails() {
                         </div>
                         <div className='flex flex-col gap-8 p-2 rounded border-2 relative'>
                             {reviews && reviews?.length > 0 && reviews?.map(review => {
-                                return <Review review={review} />
+                                return <Review review={review} key={review._id}/>
                             })}
                             {!reviews?.length && <div className='flex justify-center items-center'>
                                 <NotFound message='No Review Found.'/>

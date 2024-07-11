@@ -15,6 +15,8 @@ import AdminPlatform from './Components/Admin/Platforms';
 import Courses from "./Components/Courses";
 import CourseDetails from "./Components/CourseDetails";
 import AboutCourse from "./Components/Admin/AboutCourse";
+import {getData} from "./ApiCalls/apis";
+import {setIsLoggedIn} from "./Redux/userSlice";
 
 const router = createBrowserRouter([
   {
@@ -80,6 +82,11 @@ function App() {
   const { isVisible } = useSelector(state => state.alert);
 
   useEffect(() => {
+    (async () => {
+      const result = await getData('/users/me');
+      result?.success && dispatch(setIsLoggedIn(true));
+    })();
+
     const timeOut = setTimeout(() => {
       dispatch(showAlert(false));
       dispatch(setAlertMessage(null));

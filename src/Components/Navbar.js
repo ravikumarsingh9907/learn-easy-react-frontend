@@ -2,29 +2,33 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleForm, toggleProfileOptions } from '../Redux/formSlice';
 import Button from './Layouts/Button';
 import {useEffect, useState} from "react";
-import {getData} from "../ApiCalls/apis";
+import {getData, postData} from "../ApiCalls/apis";
 import {setUser} from "../Redux/userSlice";
 import SearchBar from "./Layouts/SearchBar";
 import Logo from "./Layouts/Logo";
+import Cookies from "js-cookie";
+import {setAlertMessage, showAlert} from "../Redux/alertSlice";
 
 export default function Navbar() {
     const dispatch = useDispatch();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const { isProfileOptions, toggle } = useSelector(state => state.form);
-
-    useEffect(() => {
-        (async () => {
-            const user = await getData('/users/me');
-            if(!user.error) {
-                setIsLoggedIn(true);
-            } else {
-                dispatch(setUser(user));
-            }
-        })();
-    }, [isLoggedIn]);
+    const { isLoggedIn } = useSelector(state => state.user);
 
     const handleForm = () => {
+        window.scrollTo(0, 0);
         dispatch(toggleForm(true));
+    }
+
+    const handleSignOut = async () => {
+        const result = await postData('/logout');
+
+        if(result.success) {
+            Cookies.remove('token');
+            window.location.reload();
+        } else {
+            dispatch(setAlertMessage(result));
+            dispatch(showAlert(true));
+        }
     }
 
     const handleProfileOptions = () => {
@@ -32,7 +36,7 @@ export default function Navbar() {
     }
 
     return (
-        <div className='bg-gray-100 sticky top-0 z-50'>
+        <div className='bg-gray-100 sticky top-0 z-40'>
             <div className="nav-wrapper flex items-center justify-between p-4 w-4/5 m-auto">
                 <Logo size='w-32'/>
                 <SearchBar className="max-[768px]:hidden search xl:mr-96 flex items-center gap-2" placeholder='Search Courses...'/>
@@ -56,7 +60,7 @@ export default function Navbar() {
                         <li className='text-lg leading-8 bg-cyan-700 hover:bg-slate-600 p-4 pr-16 cursor-pointer'>Profile</li>
                         <li className='text-lg leading-8 bg-cyan-700 hover:bg-slate-600 p-4 pr-16 cursor-pointer'>Bookmarks</li>
                         <li className='text-lg leading-8 bg-cyan-700 hover:bg-slate-600 p-4 pr-16 cursor-pointer'>Suggest</li>
-                        <li className='text-lg leading-8 bg-cyan-700 hover:bg-slate-600 p-4 pr-16 cursor-pointer'>Sign out</li>
+                        <li className='text-lg leading-8 bg-cyan-700 hover:bg-slate-600 p-4 pr-16 cursor-pointer' onClick={handleSignOut}>Sign out</li>
                     </ul>}
                 </div>
             </div>

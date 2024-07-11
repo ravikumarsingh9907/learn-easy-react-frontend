@@ -7,6 +7,8 @@ import {useFormik} from "formik";
 import Alert from "../Layouts/Alert";
 import {useDispatch, useSelector} from "react-redux";
 import {showAlert, setAlertMessage} from "../../Redux/alertSlice";
+import PageNotFound from "../Layouts/PageNotFound";
+import useCheckIsAdmin from "../../Hooks/useCheckIsAdmin";
 
 const updateInputField = (inputCount) => {
     const totalInput = [];
@@ -55,6 +57,7 @@ export default function AboutCourse() {
     const {courseId} = useParams();
     const [initialFormValue, setInitialFormValue] = useState({});
     const {isVisible, message} = useSelector(state => state.alert);
+    const { isAdmin } = useCheckIsAdmin();
     const navigate = useNavigate();
 
     const totalKnowInputField = useMemo(() => updateInputField(state.knowledge), [state]);
@@ -99,17 +102,25 @@ export default function AboutCourse() {
                     <Logo size='w-32'/>
                 </div>
             </div>
-            <div className='pb-8'>
-                <div className='text-center mt-8 mb-8'><p className='text-2xl text-bold'>{course && course.title}</p></div>
+            {isAdmin && <div className='pb-8'>
+                <div className='text-center mt-8 mb-8'><p className='text-2xl text-bold'>{course && course.title}</p>
+                </div>
                 <form className='absolute left-1/2 -translate-x-1/2 mt-4 pb-8' onSubmit={formik.handleSubmit}>
                     <div className=''>
                         <h2 className='text-bold text-xl mb-2'>What user will learn?</h2>
                         <ul className=''>
-                            { totalKnowInputField && totalKnowInputField.map((_, index) => {
+                            {totalKnowInputField && totalKnowInputField.map((_, index) => {
                                 return (<li className='flex items-center gap-2'>
-                                    <input type='text' name={'knowledge-'+ index} className='p-2 mb-2 text-lg border-2 rounded border-cyan-700 outline-none w-96' onChange={formik.handleChange}/>
-                                    {index === totalKnowInputField.length - 1 && totalKnowInputField.length < 9 && <Button className='text-3xl pt-2 px-5 pb-3 rounded-full bg-cyan-700 text-white' value='increment-know' onClick={handleAddInput}>+</Button>}
-                                    {index === totalKnowInputField.length -1 && totalKnowInputField.length > 1 && <Button className='text-3xl pt-1 px-5 pb-2 rounded-full text-cyan-700 border-2 border-cyan-700' value='decrement-know' onClick={handleRemoveInput}>-</Button>}
+                                    <input type='text' name={'knowledge-' + index}
+                                           className='p-2 mb-2 text-lg border-2 rounded border-cyan-700 outline-none w-96'
+                                           onChange={formik.handleChange}/>
+                                    {index === totalKnowInputField.length - 1 && totalKnowInputField.length < 9 &&
+                                        <Button className='text-3xl pt-2 px-5 pb-3 rounded-full bg-cyan-700 text-white'
+                                                value='increment-know' onClick={handleAddInput}>+</Button>}
+                                    {index === totalKnowInputField.length - 1 && totalKnowInputField.length > 1 &&
+                                        <Button
+                                            className='text-3xl pt-1 px-5 pb-2 rounded-full text-cyan-700 border-2 border-cyan-700'
+                                            value='decrement-know' onClick={handleRemoveInput}>-</Button>}
                                 </li>)
                             })
                             }
@@ -118,11 +129,17 @@ export default function AboutCourse() {
                     <div className='mt-16'>
                         <h2 className='text-bold text-xl mb-2'>Requirements</h2>
                         <ul className=''>
-                            { totalPreInputField && totalPreInputField.map((_, index) => {
+                            {totalPreInputField && totalPreInputField.map((_, index) => {
                                 return (<li className='flex items-center gap-2'>
-                                    <input type='text' name={'prerequisites-'+ index} className='p-2 mb-2 text-lg border-2 rounded border-cyan-700 outline-none w-96' onChange={formik.handleChange}/>
-                                    {index === totalPreInputField.length - 1 && totalPreInputField.length < 9 && <Button className='text-3xl pt-2 px-5 pb-3 rounded-full bg-cyan-700 text-white' value='increment-pre' onClick={handleAddInput}>+</Button>}
-                                    {index === totalPreInputField.length - 1 && totalPreInputField.length > 1 && <Button className='text-3xl pt-1 px-5 pb-2 rounded-full text-cyan-700 border-2 border-cyan-700' value='decrement-pre' onClick={handleRemoveInput}>-</Button>}
+                                    <input type='text' name={'prerequisites-' + index}
+                                           className='p-2 mb-2 text-lg border-2 rounded border-cyan-700 outline-none w-96'
+                                           onChange={formik.handleChange}/>
+                                    {index === totalPreInputField.length - 1 && totalPreInputField.length < 9 &&
+                                        <Button className='text-3xl pt-2 px-5 pb-3 rounded-full bg-cyan-700 text-white'
+                                                value='increment-pre' onClick={handleAddInput}>+</Button>}
+                                    {index === totalPreInputField.length - 1 && totalPreInputField.length > 1 && <Button
+                                        className='text-3xl pt-1 px-5 pb-2 rounded-full text-cyan-700 border-2 border-cyan-700'
+                                        value='decrement-pre' onClick={handleRemoveInput}>-</Button>}
                                 </li>)
                             })
                             }
@@ -130,7 +147,8 @@ export default function AboutCourse() {
                     </div>
                     <button type='submit' className='py-2 px-4 rounded bg-cyan-700 text-white mt-4'>Submit</button>
                 </form>
-            </div>
+            </div>}
+            {!isAdmin && <PageNotFound />}
         </>
     )
 }

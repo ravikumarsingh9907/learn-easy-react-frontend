@@ -36,8 +36,6 @@ export default function Courses() {
                 setLoader(false);
             }
         })();
-
-        console.log(courses);
     }, [filters]);
 
     return (

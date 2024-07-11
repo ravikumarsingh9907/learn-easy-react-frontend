@@ -8,11 +8,14 @@ import {useEffect, useState} from "react";
 import {deleteData, getData} from "../../ApiCalls/apis";
 import {setAlertMessage, showAlert} from "../../Redux/alertSlice";
 import CourseCard from "../Layouts/CourseCard";
+import PageNotFound from "../Layouts/PageNotFound";
+import useCheckIsAdmin from "../../Hooks/useCheckIsAdmin";
 
 export default function Courses() {
     const{ message, isVisible} = useSelector(state => state.alert);
     const [courses, setCourses] = useState(null);
     const dispatch = useDispatch();
+    const { isAdmin } = useCheckIsAdmin();
 
     useEffect(() => {
         (async () => {
@@ -37,7 +40,7 @@ export default function Courses() {
     return(
         <>
             {isVisible && <Alert message={message}/>}
-            <div className=''>
+            {isAdmin && <div className=''>
                 <div className='bg-gray-100'>
                     <div className="nav-wrapper flex items-center justify-between p-4 w-11/12 m-auto">
                         <Logo size='w-32'/>
@@ -64,13 +67,15 @@ export default function Courses() {
                                     <Button className='border-2 py-2 px-4 rounded-md mt-2'>
                                         <Link to={'/admin/courses/' + course._id}>Update</Link>
                                     </Button>
-                                    <Button className='py-2 px-4 rounded-md mt-2 ml-2 bg-red-500 text-white' value={course._id} onClick={handleDeleteCourse} >Delete</Button>
+                                    <Button className='py-2 px-4 rounded-md mt-2 ml-2 bg-red-500 text-white'
+                                            value={course._id} onClick={handleDeleteCourse}>Delete</Button>
                                 </div>
                             );
                         })}
                     </div>
                 </div>
-            </div>
+            </div>}
+            {!isAdmin && <PageNotFound />}
         </>
     )
 }

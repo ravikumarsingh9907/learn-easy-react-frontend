@@ -11,8 +11,8 @@ export default function CourseDetailsHeader({course, averageReview, reviews}) {
                             <div className='flex flex-row items-center gap-2'>
                                 <p className='text-2xl text-bold text-orange-400'>{averageReview ? averageReview.average : 0}</p>
                                 <div className=''>
-                                    { averageReview && averageReview.stars.length > 0 && averageReview.stars.map(() => {
-                                        return <i className='bx bxs-star text-xl text-orange-400'></i>
+                                    { averageReview && averageReview.stars.length > 0 && averageReview.stars.map((_, index) => {
+                                        return <i className='bx bxs-star text-xl text-orange-400' key={index}></i>
                                     })
                                     }
                                     {

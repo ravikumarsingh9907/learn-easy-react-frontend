@@ -8,10 +8,14 @@ import {setAlertMessage, showAlert} from "../../Redux/alertSlice";
 import CategoryCard from '../Layouts/Card';
 import Alert from "../Layouts/Alert";
 import Logo from "../Layouts/Logo";
+import PageNotFound from "../Layouts/PageNotFound";
+import useCheckIsAdmin from "../../Hooks/useCheckIsAdmin";
+
 export default function Categories() {
     const [categories, setCategories] = useState(null);
     const dispatch = useDispatch();
     const {message, isVisible} = useSelector(state => state.alert);
+    const { isAdmin } = useCheckIsAdmin();
 
     useEffect(() => {
         (async () => {
@@ -42,7 +46,7 @@ export default function Categories() {
     return(
         <>
             {isVisible && <Alert message={message}/>}
-            <div className=''>
+            {isAdmin && <div className=''>
                 <div className='bg-gray-100'>
                     <div className="nav-wrapper flex items-center justify-between p-4 w-11/12 m-auto">
                         <Logo size='w-32'/>
@@ -69,13 +73,15 @@ export default function Categories() {
                                     <Button className='border-2 py-2 px-4 rounded-md mt-2'>
                                         <Link to={'/admin/categories/' + category._id}>Update</Link>
                                     </Button>
-                                    <Button className='py-2 px-4 rounded-md mt-2 ml-2 bg-red-500 text-white' value={category._id} onClick={deleteCategory}>Delete</Button>
+                                    <Button className='py-2 px-4 rounded-md mt-2 ml-2 bg-red-500 text-white'
+                                            value={category._id} onClick={deleteCategory}>Delete</Button>
                                 </div>
                             );
                         })}
                     </div>
                 </div>
-            </div>
+            </div>}
+            {!isAdmin && <PageNotFound />}
         </>
     )
 }
